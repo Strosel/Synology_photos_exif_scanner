@@ -33,7 +33,7 @@
 
         src = craneLib.cleanCargoSource ./.;
         nativeBuildInputs = with pkgs; [ rustToolchain pkg-config ];
-        buildInputs = with pkgs; [ ];
+        buildInputs = with pkgs; [ exiftool ];
 
         # because we'll use it for both `cargoArtifacts` and `bin`
         commonArgs = {
@@ -50,7 +50,7 @@
           tag = "latest";
           copyToRoot = [ bin ];
           config = {
-            Cmd = [ "${bin}/bin/Synology_photos_exif_scanner" ];
+            Cmd = [ "${bin}/bin/synology_photos_exif_scanner" ];
           };
         };
       in
