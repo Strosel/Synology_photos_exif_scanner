@@ -1,0 +1,8 @@
+version: '3.5'
+services:
+  exif_scanner:
+    image: ghcr.io/strosel/synology_photos_exif_scanner
+    volumes:
+      - /volume1/docker/exif_scanner:/log
+      #FIXME enter user path
+      - /volume1/homes/<user>/Photos:/Photos:ro

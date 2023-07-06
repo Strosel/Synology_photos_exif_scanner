@@ -14,8 +14,8 @@ impl MediaType {
                 "((not $Exif:CreateDate or not $Exif:DatetimeOriginal) and $MIMEType=~/image/)"
             }
             Self::Video => {
-                //Missing CreateDate in either group
-                "((not $QuickTime:CreateDate or not $Xmp:CreateDate) and $MIMEType=~/video/)"
+                //Missing CreateDate in both groups
+                "(not $QuickTime:CreateDate and not $Xmp:CreateDate and $MIMEType=~/video/)"
             }
         }
     }
