@@ -46,5 +46,5 @@ jobs:
       - name: Push Image
         run: |
           docker load < result
-          docker tag synology_photos_exif_scanner:latest ${{ steps.meta.outputs.tags }}
-          docker push ${{ steps.meta.outputs.tags }}
+          docker tag synology_photos_exif_scanner:latest ${{ steps.meta.outputs.tags[0] }}
+          docker push ${{ steps.meta.outputs.tags[0] }}
