@@ -44,7 +44,13 @@ jobs:
           nix build .#dockerImage
 
       - name: Push Image
+        env:
+          tags: ${{ join(steps.meta.outputs.tags) }}
         run: |
           docker load < result
-          docker tag synology_photos_exif_scanner:latest ${{ steps.meta.outputs.tags[0] }}
-          docker push ${{ steps.meta.outputs.tags[0] }}
+          for tag in ${tags//,/ }
+          do 
+            echo "Pushing $tag"
+            docker tag synology_photos_exif_scanner:latest $tag
+            docker push $tag
+          done
