@@ -1,5 +1,7 @@
 use anyhow::Result;
-use std::process::Command;
+
+mod media;
+mod scan;
 
 fn setup_log() -> Result<()> {
     fern::Dispatch::new()
@@ -25,10 +27,7 @@ fn setup_log() -> Result<()> {
 fn main() -> Result<()> {
     setup_log()?;
 
-    match Command::new("exiftool").output() {
-        Ok(out) => log::warn!("{out:?}"),
-        Err(e) => log::error!("{e:?}"),
-    }
+    scan::scan_all();
 
     Ok(())
 }

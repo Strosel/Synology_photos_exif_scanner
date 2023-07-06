@@ -33,7 +33,7 @@
 
         src = craneLib.cleanCargoSource ./.;
         nativeBuildInputs = with pkgs; [ rustToolchain pkg-config ];
-        buildInputs = with pkgs; [ exiftool ];
+        buildInputs = [ ];
 
         # because we'll use it for both `cargoArtifacts` and `bin`
         commonArgs = {
@@ -48,8 +48,9 @@
         dockerImage = pkgs.dockerTools.buildImage {
           name = "synology_photos_exif_scanner";
           tag = "latest";
-          copyToRoot = [ bin ];
+          copyToRoot = [ bin pkgs.exiftool ];
           config = {
+            Env = [ "EXIFTOOL=${pkgs.exiftool}/bin/exiftool" ];
             Cmd = [ "${bin}/bin/synology_photos_exif_scanner" ];
           };
         };
