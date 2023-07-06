@@ -7,6 +7,7 @@ fn scan(ty: MediaType) -> Result<Vec<String>> {
         .args(["-s", "FilePath"])
         .args(["-if", ty.exif_condition()])
         .args(["-r", "/Photos"])
+        .args(["-i", "@eaDir"])
         .output()?
         .stdout;
 
