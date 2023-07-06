@@ -11,3 +11,6 @@ clokwerk = "0.4"
 #logging
 log = "0.4"
 fern = "0.6"
+#output
+serde = { version = "1.0", features = [ "derive" ] }
+serde_yaml = "0.8"

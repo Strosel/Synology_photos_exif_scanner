@@ -1,6 +1,6 @@
 use crate::media::MediaType;
 use anyhow::Result;
-use std::{collections::HashMap, env, process::Command};
+use std::{collections::HashMap, env, fs::File, process::Command};
 
 fn scan(ty: MediaType) -> Result<Vec<String>> {
     let stdout = Command::new(env::var("EXIFTOOL")?)
@@ -19,19 +19,19 @@ fn scan(ty: MediaType) -> Result<Vec<String>> {
     Ok(output)
 }
 
-pub fn scan_all() {
+pub fn scan_all() -> Result<()> {
     let mut map = HashMap::new();
     for ty in [MediaType::Photo, MediaType::Video] {
-        match scan(ty) {
-            Ok(missing) => {
-                map.insert(ty, missing);
-            }
-            Err(e) => {
-                log::error!("{e:?}");
-                return;
-            }
-        }
+        map.insert(ty, scan(ty)?);
     }
 
-    //TODO write map to file
+    let file = File::options()
+        .create(true)
+        .truncate(true)
+        .write(true)
+        .open("/log/scan_result.yml")?;
+
+    serde_yaml::to_writer(file, &map)?;
+
+    Ok(())
 }

@@ -27,7 +27,8 @@ fn setup_log() -> Result<()> {
 fn main() -> Result<()> {
     setup_log()?;
 
-    scan::scan_all();
+    log::info!("Running initial scan");
+    scan::scan_all()?;
 
     Ok(())
 }
