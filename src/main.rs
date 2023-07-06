@@ -1,4 +1,6 @@
 use anyhow::Result;
+use clokwerk::{Job, Scheduler, TimeUnits};
+use std::{thread, time::Duration};
 
 mod media;
 mod scan;
@@ -30,5 +32,16 @@ fn main() -> Result<()> {
     log::info!("Running initial scan");
     scan::scan_all()?;
 
-    Ok(())
+    let mut scheduler = Scheduler::new();
+
+    scheduler.every(1.days()).at("00:00").run(|| {
+        if let Err(e) = scan::scan_all() {
+            log::error!("{e:?}");
+        }
+    });
+
+    loop {
+        scheduler.run_pending();
+        thread::sleep(Duration::from_millis(10));
+    }
 }
