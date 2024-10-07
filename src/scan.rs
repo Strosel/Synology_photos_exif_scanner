@@ -4,7 +4,7 @@ use std::{collections::HashMap, env, fs::File, process::Command};
 
 fn scan(ty: MediaType) -> Result<Vec<String>> {
     let stdout = Command::new(env::var("EXIFTOOL")?)
-        .args(["-s", "FilePath"])
+        .args(["-s", "-FilePath"])
         .args(["-if", ty.exif_condition()])
         .args(["-r", "/Photos"])
         .args(["-i", "@eaDir"])
@@ -22,7 +22,7 @@ fn scan(ty: MediaType) -> Result<Vec<String>> {
 
 pub fn scan_all() -> Result<()> {
     let mut map = HashMap::new();
-    for ty in [MediaType::Photo, MediaType::Video] {
+    for ty in [MediaType::Photo, MediaType::Video, MediaType::Gif] {
         map.insert(ty, scan(ty)?);
     }
 
