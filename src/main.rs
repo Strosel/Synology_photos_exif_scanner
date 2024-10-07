@@ -20,7 +20,7 @@ fn setup_log() -> Result<()> {
         } else {
             log::LevelFilter::Warn
         })
-        .chain(std::io::stdout())
+        .chain(std::io::stderr())
         .chain(fern::log_file("/log/scan.log").unwrap())
         .apply()?;
     Ok(())

@@ -23,6 +23,7 @@ fn scan(ty: MediaType) -> Result<Vec<String>> {
 pub fn scan_all() -> Result<()> {
     let mut map = HashMap::new();
     for ty in [MediaType::Photo, MediaType::Video, MediaType::Gif] {
+        log::info!("Scanning {ty:?}");
         map.insert(ty, scan(ty)?);
     }
 
